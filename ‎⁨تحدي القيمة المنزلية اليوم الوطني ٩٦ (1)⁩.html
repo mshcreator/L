@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بطل القيمة المنزلية - تحدي اليوم الوطني ٩٦</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #00562e 0%, #00873e 50%, #1b4d3e 100%);
+            min-height: 100vh;
+        }
+        .national-pattern {
+            background-image: radial-gradient(rgba(255, 215, 0, 0.25) 2px, transparent 2px);
+            background-size: 32px 32px;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(1deg); }
+        }
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        @keyframes pulse-gold {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px rgba(255, 215, 0, 0.7); }
+            50% { transform: scale(1.03); box-shadow: 0 0 40px rgba(255, 215, 0, 0.95); }
+        }
+        .gold-glow {
+            animation: pulse-gold 2s infinite;
+        }
+        .vibrant-card {
+            background: linear-gradient(145deg, #ffffff 0%, #f0fdf4 100%);
+        }
+    </style>
+</head>
+<body class="national-pattern text-white flex flex-col items-center justify-center p-4">
+
+    <script>
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); 
+                osc.frequency.setValueAtTime(659.25, now + 0.1); 
+                osc.frequency.setValueAtTime(783.99, now + 0.2); 
+                osc.frequency.setValueAtTime(1046.50, now + 0.3); 
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.6);
+                osc.start(now);
+                osc.stop(now + 0.6);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(180, now);
+                osc.frequency.setValueAtTime(120, now + 0.15);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'click') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(450, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            } else if (type === 'win') {
+                const notes = [523.25, 587.33, 659.25, 698.46, 783.99, 880, 987.77, 1046.50];
+                notes.forEach((freq, index) => {
+                    const subOsc = audioCtx.createOscillator();
+                    const subGain = audioCtx.createGain();
+                    subOsc.connect(subGain);
+                    subGain.connect(audioCtx.destination);
+                    subOsc.type = 'sine';
+                    subOsc.frequency.setValueAtTime(freq, now + index * 0.08);
+                    subGain.gain.setValueAtTime(0.2, now + index * 0.08);
+                    subGain.gain.exponentialRampToValueAtTime(0.001, now + index * 0.08 + 0.3);
+                    subOsc.start(now + index * 0.08);
+                    subOsc.stop(now + index * 0.08 + 0.3);
+                });
+            }
+        }
+
+        function toArabicDigits(str) {
+            if (typeof str !== 'string') str = str.toString();
+            const arabicNumbers = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+            return str.replace(/[0-9]/g, function(w) {
+                return arabicNumbers[parseInt(w)];
+            });
+        }
+    </script>
+
+    <header class="w-full max-w-2xl text-center mb-6 pt-4">
+        <div class="inline-block bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 px-6 py-2 rounded-full border-2 border-white text-gray-950 font-black mb-3 shadow-xl animate-float text-sm md:text-base">
+            🇸🇦 اليوم الوطني السعودي ٩٦ - نُحلق مجداً ونبني وطناً 🇸🇦
+        </div>
+        
+        <!-- Enhanced Title with High Contrast Gold Styling -->
+        <div class="mb-3">
+            <h1 class="text-2xl md:text-3xl lg:text-4xl font-black text-amber-300 drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] bg-emerald-950/80 px-6 py-3 rounded-2xl border-2 border-amber-400 inline-block shadow-2xl">
+                ⭐ بطل القيمة المنزلية - رياضيات الصف الثالث ⭐
+            </h1>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-2 mt-2">
+            <div class="bg-emerald-800/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-amber-400/60 text-amber-200 text-xs md:text-sm font-black shadow-md">
+                👩‍🏫 إعداد المعلمة: فاطمة شنيمر 🌟
+            </div>
+            <div class="bg-teal-800/90 backdrop-blur-md px-4 py-1.5 rounded-full border border-amber-400/60 text-amber-200 text-xs md:text-sm font-black shadow-md">
+                🏫 روضة الإبداع للطفولة المبكرة 🌸
+            </div>
+        </div>
+    </header>
+
+    <main class="w-full max-w-xl vibrant-card text-gray-800 rounded-3xl shadow-2xl p-6 md:p-8 backdrop-blur-md border-4 border-amber-400 relative overflow-hidden">
+        
+        <!-- Welcome / Start Screen -->
+        <div id="start-screen" class="text-center py-6">
+            <div class="text-6xl mb-4 animate-float">💚🌟🏆</div>
+            <h2 class="text-2xl font-bold text-emerald-800 mb-2">أهلاً بك يا بطل الوطن المتألق!</h2>
+            <p class="text-gray-600 mb-6 text-sm">استعد لرحلة ممتعة في عالم الأعداد الكبيرة واجمع الأوسمة الذهبية.</p>
+            
+            <div class="mb-6 text-right">
+                <label for="student-name" class="block font-bold text-gray-700 mb-2">أدخل اسم البطل:</label>
+                <input type="text" id="student-name" placeholder="مثال: سلطان أحمد" class="w-full px-4 py-3 border-2 border-emerald-600 rounded-2xl text-center text-lg bg-emerald-50/50 focus:outline-none focus:ring-4 focus:ring-emerald-300 font-bold text-emerald-900 shadow-inner">
+            </div>
+
+            <button onclick="startGame()" class="w-full bg-gradient-to-r from-emerald-600 via-green-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-xl py-4 rounded-2xl shadow-xl transition transform hover:scale-105 gold-glow flex items-center justify-center gap-2">
+                <span>ابدأ التحدي الآن!</span> <span>🚀</span>
+            </button>
+        </div>
+
+        <!-- Game Play Screen -->
+        <div id="game-screen" class="hidden">
+            <!-- Game Status Bar -->
+            <div class="flex justify-between items-center mb-6 bg-gradient-to-r from-emerald-100 to-teal-100 p-3 rounded-2xl border-2 border-emerald-300 shadow-inner">
+                <div class="text-sm font-bold text-emerald-900">
+                    البطل: <span id="display-name" class="text-amber-700 font-black"></span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="text-sm font-bold text-gray-700">
+                        السؤال: <span id="current-q" class="text-emerald-700 font-black">١</span>/<span id="total-q" class="font-black">١٠</span>
+                    </div>
+                    <div class="text-sm font-bold text-amber-800 bg-amber-200 px-3 py-1 rounded-full border border-amber-400">
+                        ⭐ النقاط: <span id="score" class="font-black">٠</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div id="question-container" class="mb-6">
+                <div id="question-badge" class="inline-block bg-gradient-to-r from-amber-400 to-yellow-500 text-gray-950 text-xs font-black px-3 py-1 rounded-full mb-3 shadow-md">
+                    القيمة المنزلية
+                </div>
+                <h3 id="question-text" class="text-xl md:text-2xl font-black text-gray-900 mb-6 leading-relaxed">
+                    <!-- Question injected here -->
+                </h3>
+
+                <!-- Options Grid -->
+                <div id="options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <!-- Options injected here -->
+                </div>
+            </div>
+
+            <!-- Feedback Alert Box -->
+            <div id="feedback-box" class="hidden p-4 rounded-2xl text-center font-bold text-lg mb-4 transition-all shadow-md">
+                <!-- Feedback message -->
+            </div>
+
+            <!-- Next Button -->
+            <button id="next-btn" onclick="nextQuestion()" class="hidden w-full bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-gray-950 font-black py-3.5 rounded-2xl shadow-lg transition transform hover:scale-[1.02]">
+                السؤال التالي ➡️
+            </button>
+        </div>
+
+        <!-- Victory / Result Screen -->
+        <div id="victory-screen" class="hidden text-center py-6">
+            <div class="text-7xl mb-4 animate-float">🏆🇸🇦✨</div>
+            <h2 class="text-3xl font-black text-emerald-800 mb-2">مبارك يا بطل الوطن المتألق!</h2>
+            <p class="text-gray-600 mb-4 text-sm font-semibold">أتممت تحدي القيمة المنزلية لليوم الوطني ٩٦ بنجاح باهر.</p>
+            
+            <div class="bg-gradient-to-br from-amber-50 to-yellow-100 border-2 border-amber-300 p-5 rounded-2xl mb-6 shadow-inner">
+                <p class="text-gray-700 text-sm font-bold">النتيجة النهائية للبطل <span id="final-name" class="font-black text-emerald-800"></span>:</p>
+                <div class="text-4xl font-black text-amber-600 my-2"><span id="final-score">٠</span> / <span id="max-score">١٠٠</span></div>
+                <p id="reward-message" class="text-emerald-800 font-bold text-sm mt-2"></p>
+                <div class="mt-4 pt-3 border-t border-amber-200/80 text-xs text-emerald-900 font-bold space-y-1">
+                    <div>إشراف وإعداد المعلمة: فاطمة شنيمر 🌸</div>
+                    <div>روضة الإبداع للطفولة المبكرة 🏫</div>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button onclick="restartGame()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3.5 rounded-2xl shadow-lg transition transform hover:scale-105">
+                    إعادة التحدي 🔄
+                </button>
+                <button onclick="shareResult()" class="flex-1 bg-amber-500 hover:bg-amber-600 text-gray-950 font-black py-3.5 rounded-2xl shadow-lg transition transform hover:scale-105">
+                    مشاركة الإنجاز 📱
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        const questionBank = [
+            {
+                badge: "تحديد القيمة المنزلية",
+                text: "ما هي القيمة المنزلية للرقم ٧ في العدد ٤٧٢ ؟",
+                options: ["٧", "٧٠", "٧٠٠", "٧٠٠٠"],
+                correct: 1
+            },
+            {
+                badge: "الألف والمئات",
+                text: "ما هو العدد الذي يمثل: ٣ آلاف و ٥ مئات و ٤ آحاد ؟",
+                options: ["٣٥٠٤", "٣٠٥٤", "٣٥٤٠", "٥٣٠٤"],
+                correct: 0
+            },
+            {
+                badge: "الصيغة التحليلية",
+                text: "اكتب العدد ٨٦٣ بالصيغة التحليلية الصحيحة:",
+                options: ["٣ + ٦٠ + ٨٠٠", "٨ + ٦٠ + ٣٠٠", "٣٠٠ + ٦٠٠ + ٨", "٨٠ + ٦ + ٣٠٠"],
+                correct: 0
+            },
+            {
+                badge: "القيمة المنزلية للرقم",
+                text: "ما قيمة الرقم ٥ في العدد ٥,٢٣٤ ؟",
+                options: ["٥٠", "٥٠٠", "٥٠٠٠", "٥"],
+                correct: 2
+            },
+            {
+                badge: "مقارنة الأعداد",
+                text: "أي العبارات التالية صحيحة لمقارنة العددين: ٤٨٢ و ٤٢٨ ؟",
+                options: ["٤٨٢ < ٤٢٨", "٤٨٢ > ٤٢٨", "٤٨٢ = ٤٢٨", "لا شيء مما ذكر"],
+                correct: 1
+            },
+            {
+                badge: "الصيغة اللفظية",
+                text: "كيف يُكتب العدد تسعمائة وخمسة بالأرقام القياسية؟",
+                options: ["٩٥٠", "٩٠٥", "٥٠٩", "٩٥٥"],
+                correct: 1
+            },
+            {
+                badge: "تحديد المنزلة",
+                text: "في العدد ٧,٤١٩، ما الرقم الذي تقع قيمته المنزلية في منزلة المئات؟",
+                options: ["٧", "٤", "١", "٩"],
+                correct: 1
+            },
+            {
+                badge: "ترتيب الأعداد",
+                text: "ما هو الترتيب التصاعدي الصحيح للأعداد الآتية: ٣٤٢، ١٢٩، ٥٦٧ ؟",
+                options: ["٣٤٢، ١٢٩، ٥٦٧", "٥٦٧، ٣٤٢، ١٢٩", "١٢٩، ٣٤٢، ٥٦٧", "١٢٩، ٥٦٧، ٣٤٢"],
+                correct: 2
+            },
+            {
+                badge: "التقريب وتحديد المنازل",
+                text: "ما اسم المنزلة التي يشغلها الرقم ٦ في العدد ٦,٨٣٢ ؟",
+                options: ["الآحاد", "العشرات", "المئات", "الألوف"],
+                correct: 3
+            },
+            {
+                badge: "تحدي وطني متقدم",
+                text: "إذا كان مع بطل الوطن ٤ ورقات فئة ١٠٠ ريال، و ٣ ورقات فئة ١٠ ريالات، و ٥ قطع فئة ١ ريال، فكم المبلغ الإجمالي؟",
+                options: ["٤٣٥ ريالاً", "٣٤٥ ريالاً", "٥٣٤ ريالاً", "٤٥٣ ريالاً"],
+                correct: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let studentName = "";
+        let questionsList = [];
+
+        function startGame() {
+            playSound('click');
+            const nameInput = document.getElementById('student-name').value.trim();
+            if (!nameInput) {
+                alertCustom("الرجاء إدخال اسم البطل أولاً! 🇸🇦");
+                return;
+            }
+            studentName = nameInput;
+            document.getElementById('display-name').innerText = studentName;
+            
+            questionsList = [...questionBank];
+            currentQuestionIndex = 0;
+            score = 0;
+
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('victory-screen').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+
+            loadQuestion();
+        }
+
+        function alertCustom(msg) {
+            const box = document.createElement('div');
+            box.className = 'fixed top-5 left-1/2 transform -translate-x-1/2 bg-amber-500 text-gray-950 font-black px-6 py-3 rounded-2xl shadow-2xl z-50 animate-bounce border-2 border-white text-center';
+            box.innerText = msg;
+            document.body.appendChild(box);
+            setTimeout(() => box.remove(), 2500);
+        }
+
+        function loadQuestion() {
+            const q = questionsList[currentQuestionIndex];
+            document.getElementById('current-q').innerText = toArabicDigits(currentQuestionIndex + 1);
+            document.getElementById('total-q').innerText = toArabicDigits(questionsList.length);
+            document.getElementById('score').innerText = toArabicDigits(score);
+
+            document.getElementById('question-badge').innerText = q.badge;
+            document.getElementById('question-text').innerText = q.text;
+
+            const grid = document.getElementById('options-grid');
+            grid.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'w-full bg-emerald-50/90 hover:bg-emerald-100 border-2 border-emerald-300 text-emerald-950 font-bold p-4 rounded-2xl text-lg text-right transition transform hover:scale-[1.02] flex items-center justify-between shadow-sm';
+                btn.innerHTML = `<span>${opt}</span> <span class="w-8 h-8 rounded-full bg-emerald-200 text-emerald-900 flex items-center justify-center text-sm font-black shadow-inner">${['أ', 'ب', 'ج', 'د'][idx]}</span>`;
+                btn.onclick = () => selectOption(idx, btn);
+                grid.appendChild(btn);
+            });
+
+            document.getElementById('feedback-box').classList.add('hidden');
+            document.getElementById('next-btn').classList.add('hidden');
+        }
+
+        function selectOption(selectedIdx, btnElement) {
+            playSound('click');
+            const q = questionsList[currentQuestionIndex];
+            const allBtns = document.getElementById('options-grid').children;
+
+            for (let b of allBtns) {
+                b.disabled = true;
+                b.classList.remove('hover:bg-emerald-100', 'hover:scale-[1.02]');
+            }
+
+            const feedbackBox = document.getElementById('feedback-box');
+            feedbackBox.classList.remove('hidden');
+
+            if (selectedIdx === q.correct) {
+                playSound('correct');
+                score += 10;
+                document.getElementById('score').innerText = toArabicDigits(score);
+                btnElement.classList.remove('bg-emerald-50', 'border-emerald-300');
+                btnElement.classList.add('bg-emerald-600', 'text-white', 'border-emerald-700', 'shadow-xl');
+                
+                const praises = ["كفو يا بطل الوطن! إجابة صحيحة مبهرة 🌟", "رائع جداً! استمر في التألق والتميز 🇸🇦", "ممتاز! إجابة دقيقة وعقل وطني متقد 👏"];
+                feedbackBox.className = "p-4 rounded-2xl text-center font-bold text-lg mb-4 bg-emerald-100 text-emerald-900 border-2 border-emerald-400 shadow-md";
+                feedbackBox.innerText = praises[Math.floor(Math.random() * praises.length)];
+            } else {
+                playSound('wrong');
+                btnElement.classList.remove('bg-emerald-50', 'border-emerald-300');
+                btnElement.classList.add('bg-rose-500', 'text-white', 'border-rose-600', 'shadow-xl');
+
+                allBtns[q.correct].classList.remove('bg-emerald-50', 'border-emerald-300');
+                allBtns[q.correct].classList.add('bg-emerald-600', 'text-white', 'border-emerald-700', 'shadow-xl');
+
+                feedbackBox.className = "p-4 rounded-2xl text-center font-bold text-lg mb-4 bg-rose-100 text-rose-900 border-2 border-rose-300 shadow-md";
+                feedbackBox.innerText = `خطأ يا بطل! الإجابة الصحيحة هي: ${q.options[q.correct]}`;
+            }
+
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            playSound('click');
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questionsList.length) {
+                loadQuestion();
+            } else {
+                showVictoryScreen();
+            }
+        }
+
+        function showVictoryScreen() {
+            playSound('win');
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('victory-screen').classList.remove('hidden');
+            document.getElementById('final-name').innerText = studentName;
+            document.getElementById('final-score').innerText = toArabicDigits(score);
+            document.getElementById('max-score').innerText = toArabicDigits(100);
+
+            const rewardMsg = document.getElementById('reward-message');
+            if (score === 100) {
+                rewardMsg.innerText = "🏅 مبروك! حصلت على وسام فارس الرياضيات واليوم الوطني ٩٦ بامتياز كامل!";
+            } else if (score >= 70) {
+                rewardMsg.innerText = "🥈 ممتاز! أداء رائع يرفع الرأس، أنت بطل حقيقي في القيمة المنزلية.";
+            } else {
+                rewardMsg.innerText = "🥉 بطل مغوار! حاول مرة أخرى لتحقيق العلامة الكاملة ورفع علم الوطن عالياً.";
+            }
+        }
+
+        function restartGame() {
+            playSound('click');
+            document.getElementById('victory-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            document.getElementById('student-name').value = '';
+        }
+
+        function shareResult() {
+            playSound('click');
+            const shareText = `لقد حصل البطل ${studentName} على ${toArabicDigits(score)} من ١٠٠ في تحدي القيمة المنزلية لليوم الوطني السعودي ٩٦ بـ روضة الإبداع للطفولة المبكرة! 🇸🇦🎉`;
+            if (navigator.clipboard) {
+                document.execCommand('copy');
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alertCustom("تم نسخ النتيجة بنجاح! شاركها مع معلمك وأصدقائك 📱");
+                }).catch(() => {
+                    alertCustom(shareText);
+                });
+            } else {
+                alertCustom(shareText);
+            }
+        }
+    </script>
+</body>
+</html>
